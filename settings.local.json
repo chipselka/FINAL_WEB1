@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(where inference.sh)",
+      "Bash(nano-banana --help)",
+      "Bash(nano-banana:*)"
+    ]
+  }
+}

@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liberty Atelier — House of Bold Elegance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,700&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       DESIGN TOKENS
+    ============================================================ */
+    :root {
+      --white: #FFFFFF;
+      --chalk: #F8F8F8;
+      --scarlet: #C80000;
+      --scarlet-dark: #A00000;
+      --blush: #F5D0D0;
+      --black: #000000;
+      --charcoal: #1A1A1A;
+      --font-display: 'Bodoni Moda', Georgia, serif;
+      --font-body: 'Inter', sans-serif;
+      --font-accent: 'Cormorant Garamond', Georgia, serif;
+      --max-width: 1440px;
+      --sp: 120px;
+      --ease: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    /* ============================================================
+       RESET
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); font-weight: 300; color: var(--charcoal); background: var(--white); overflow-x: hidden; cursor: none; }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+    .hero-right img,
+    .icon-card img,
+    .c-item img,
+    .mat-card img,
+    .lb-item img,
+    .atelier-img img { filter: contrast(1.06) saturate(0.82) brightness(0.97); transition: filter .4s ease; }
+    .icon-card:hover img,
+    .lb-item:hover img { filter: contrast(1.08) saturate(0.88) brightness(1.0); }
+    button { cursor: none; }
+
+    /* ============================================================
+       CURSOR
+    ============================================================ */
+    #cursor {
+      position: fixed; width: 22px; height: 22px;
+      border: 1px solid var(--black); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width .2s ease, height .2s ease, border-color .2s ease, background .2s ease;
+      mix-blend-mode: difference;
+    }
+    #cursor.hover { width: 44px; height: 44px; border-color: var(--scarlet); background: rgba(200,0,0,.08); }
+
+    /* ============================================================
+       NAV
+    ============================================================ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 60px;
+      transition: background var(--ease), border-bottom var(--ease);
+    }
+    nav.scrolled { background: rgba(255,255,255,.96); border-bottom: 1px solid var(--black); backdrop-filter: blur(8px); }
+    .nav-logo { font-family: var(--font-display); font-size: 17px; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; }
+    .nav-logo span { display: block; font-family: var(--font-body); font-size: 9px; font-weight: 300; letter-spacing: .5em; color: var(--charcoal); margin-top: 3px; }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links a {
+      font-size: 10px; font-weight: 400; letter-spacing: .2em; text-transform: uppercase; color: var(--charcoal);
+      position: relative; transition: color var(--ease);
+    }
+    .nav-links a::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: var(--scarlet); transition: width var(--ease); }
+    .nav-links a:hover { color: var(--scarlet); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      font-size: 10px; font-weight: 400; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--white); background: var(--black); padding: 12px 24px;
+      border: 1px solid var(--black); transition: background var(--ease), border-color var(--ease);
+    }
+    .nav-cta:hover { background: var(--scarlet); border-color: var(--scarlet); }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    #hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; }
+
+    .hero-left {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 160px 80px 80px;
+    }
+    .hero-eyebrow {
+      font-size: 10px; letter-spacing: .4em; text-transform: uppercase; color: var(--scarlet);
+      margin-bottom: 32px; opacity: 0; animation: fadeUp .6s ease forwards .2s;
+    }
+    .hero-title {
+      font-family: var(--font-display); font-size: clamp(64px,8vw,112px);
+      font-weight: 900; line-height: .9; letter-spacing: -.02em; text-transform: uppercase;
+      color: var(--black); margin-bottom: 40px; opacity: 0; animation: fadeUp .6s ease forwards .4s;
+    }
+    .hero-title em { font-style: italic; color: var(--scarlet); display: block; }
+    .hero-subtitle {
+      font-family: var(--font-accent); font-size: 20px; font-weight: 300; font-style: italic;
+      color: var(--charcoal); margin-bottom: 64px; opacity: 0; animation: fadeUp .6s ease forwards .6s;
+    }
+    .hero-ctas { display: flex; align-items: center; gap: 32px; opacity: 0; animation: fadeUp .6s ease forwards .8s; }
+
+    .btn-primary {
+      display: inline-block; font-size: 10px; font-weight: 400; letter-spacing: .25em; text-transform: uppercase;
+      color: var(--white); background: var(--black); padding: 16px 40px; border: 1px solid var(--black);
+      transition: background var(--ease), border-color var(--ease);
+    }
+    .btn-primary:hover { background: var(--scarlet); border-color: var(--scarlet); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 10px; font-weight: 400; letter-spacing: .25em; text-transform: uppercase;
+      color: var(--charcoal); transition: color var(--ease);
+    }
+    .btn-ghost::after { content: '→'; font-size: 15px; transition: transform var(--ease); }
+    .btn-ghost:hover { color: var(--scarlet); }
+    .btn-ghost:hover::after { transform: translateX(4px); }
+
+    .hero-right { position: relative; overflow: hidden; background: var(--chalk); opacity: 0; animation: fadeIn .8s ease forwards .3s; }
+    .hero-right img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+
+    /* hero marquee strip */
+    .hero-ticker {
+      background: var(--scarlet); color: var(--white); overflow: hidden;
+      padding: 12px 0; white-space: nowrap;
+    }
+    .ticker-inner {
+      display: inline-flex; gap: 0;
+      animation: ticker 18s linear infinite;
+    }
+    .ticker-inner span {
+      font-size: 10px; letter-spacing: .3em; text-transform: uppercase;
+      padding: 0 40px;
+    }
+    .ticker-inner span::after { content: '◆'; margin-left: 40px; font-size: 8px; opacity: .6; }
+
+    /* ============================================================
+       SHARED
+    ============================================================ */
+    section { padding: var(--sp) 0; }
+    .container { max-width: var(--max-width); margin: 0 auto; padding: 0 60px; }
+    .section-label { font-size: 10px; letter-spacing: .4em; text-transform: uppercase; color: var(--scarlet); margin-bottom: 20px; }
+    .section-title { font-family: var(--font-display); font-size: clamp(40px,5vw,72px); font-weight: 700; line-height: 1; color: var(--black); margin-bottom: 24px; }
+
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .65s ease, transform .65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: .1s; }
+    .d2 { transition-delay: .2s; }
+    .d3 { transition-delay: .3s; }
+    .d4 { transition-delay: .4s; }
+
+    /* ============================================================
+       PHILOSOPHY
+    ============================================================ */
+    #philosophy { text-align: center; }
+    .philosophy-inner { max-width: 680px; margin: 0 auto; }
+    .philosophy-rule { width: 40px; height: 1px; background: var(--scarlet); margin: 0 auto 40px; }
+    .philosophy-quote {
+      font-family: var(--font-accent); font-size: clamp(26px,3.5vw,46px);
+      font-weight: 300; font-style: italic; line-height: 1.4; color: var(--charcoal); margin-bottom: 36px;
+    }
+    .philosophy-body { font-size: 15px; font-weight: 300; line-height: 1.85; color: var(--charcoal); margin-bottom: 40px; }
+
+    /* ============================================================
+       ICONS OF THE HOUSE
+    ============================================================ */
+    #icons { background: var(--chalk); }
+    .icons-header { text-align: center; margin-bottom: 64px; }
+    .icons-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+    .icon-card { position: relative; overflow: hidden; aspect-ratio: 3/4; }
+    .icon-card img { width: 100%; height: 100%; object-fit: cover; transition: transform .55s ease; }
+    .icon-card:hover img { transform: scale(1.05); }
+    .icon-overlay {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 40px 28px 32px;
+      background: linear-gradient(to top, rgba(0,0,0,.72) 0%, transparent 100%);
+    }
+    .icon-cat { font-size: 9px; letter-spacing: .4em; text-transform: uppercase; color: rgba(255,255,255,.65); margin-bottom: 8px; }
+    .icon-name { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--white); line-height: 1.1; margin-bottom: 12px; }
+    .icon-link {
+      font-size: 9px; letter-spacing: .3em; text-transform: uppercase; color: var(--white);
+      opacity: 0; transform: translateY(8px);
+      transition: opacity var(--ease), transform var(--ease);
+    }
+    .icon-card:hover .icon-link { opacity: 1; transform: translateY(0); }
+
+    /* ============================================================
+       SCARLET EDIT (CAROUSEL)
+    ============================================================ */
+    #scarlet-edit { background: var(--black); padding: var(--sp) 0; overflow: hidden; }
+    .scarlet-head {
+      padding: 0 60px; margin-bottom: 48px;
+      display: flex; align-items: flex-end; justify-content: space-between;
+    }
+    .scarlet-head .section-title { color: var(--white); }
+    .scarlet-head .section-label { color: var(--blush); }
+    .carousel-controls { display: flex; gap: 8px; }
+    .c-btn {
+      width: 48px; height: 48px; border: 1px solid rgba(255,255,255,.25); background: transparent;
+      color: var(--white); font-size: 18px;
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--ease), border-color var(--ease);
+    }
+    .c-btn:hover { background: var(--scarlet); border-color: var(--scarlet); }
+    .carousel-wrap { overflow: hidden; padding: 0 60px; }
+    .carousel-track { display: flex; gap: 24px; transition: transform .55s cubic-bezier(.25,.46,.45,.94); }
+    .c-item { flex: 0 0 360px; }
+    .c-item img { width: 100%; aspect-ratio: 3/4; object-fit: cover; }
+    .c-info { padding: 18px 0; }
+    .c-num { font-size: 9px; letter-spacing: .3em; color: var(--scarlet); margin-bottom: 8px; }
+    .c-name { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+    .c-desc { font-size: 12px; font-weight: 300; color: rgba(255,255,255,.45); }
+
+    /* ============================================================
+       MATERIAL LIBRARY
+    ============================================================ */
+    #materials { background: var(--white); }
+    .materials-head { text-align: center; margin-bottom: 64px; }
+    .materials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .mat-card { border: 1px solid #E8E8E8; overflow: hidden; transition: transform var(--ease), box-shadow var(--ease); }
+    .mat-card:hover { transform: scale(1.01); box-shadow: 0 16px 48px rgba(0,0,0,.09); }
+    .mat-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+    .mat-info { padding: 28px; }
+    .mat-label { font-size: 9px; letter-spacing: .4em; text-transform: uppercase; color: var(--scarlet); margin-bottom: 10px; }
+    .mat-name { font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.1; color: var(--black); margin-bottom: 14px; }
+    .mat-desc { font-size: 14px; font-weight: 300; line-height: 1.75; color: var(--charcoal); }
+
+    /* ============================================================
+       LOOKBOOK
+    ============================================================ */
+    #lookbook { background: var(--chalk); }
+    .lookbook-head { text-align: center; margin-bottom: 64px; }
+    .masonry { columns: 3; column-gap: 14px; }
+    .lb-item { break-inside: avoid; margin-bottom: 14px; overflow: hidden; position: relative; }
+    .lb-item img { width: 100%; display: block; transition: transform .5s ease; }
+    .lb-item:hover img { transform: scale(1.03); }
+    .lb-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0); display: flex; align-items: center; justify-content: center;
+      transition: background var(--ease);
+    }
+    .lb-item:hover .lb-overlay { background: rgba(0,0,0,.3); }
+    .lb-icon {
+      opacity: 0; width: 38px; height: 38px; border: 1px solid var(--white);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--white); font-size: 20px;
+      transition: opacity var(--ease);
+    }
+    .lb-item:hover .lb-icon { opacity: 1; }
+
+    /* Lightbox */
+    #lightbox {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,.92);
+      z-index: 2000; align-items: center; justify-content: center;
+    }
+    #lightbox.on { display: flex; }
+    #lightbox img { max-width: 80vw; max-height: 90vh; object-fit: contain; }
+    #lb-close {
+      position: absolute; top: 28px; right: 28px;
+      width: 40px; height: 40px; border: 1px solid rgba(255,255,255,.4); background: transparent;
+      color: var(--white); font-size: 18px;
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--ease), border-color var(--ease);
+    }
+    #lb-close:hover { background: var(--scarlet); border-color: var(--scarlet); }
+
+    /* ============================================================
+       ATELIER (ABOUT)
+    ============================================================ */
+    #atelier { padding: 0; }
+    .atelier-split { display: grid; grid-template-columns: 1fr 1fr; min-height: 80vh; }
+    .atelier-img { overflow: hidden; }
+    .atelier-img img { width: 100%; height: 100%; object-fit: cover; }
+    .atelier-text {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 100px 80px;
+    }
+    .atelier-eyebrow { font-size: 10px; letter-spacing: .4em; text-transform: uppercase; color: var(--scarlet); margin-bottom: 20px; }
+    .atelier-title { font-family: var(--font-display); font-size: clamp(36px,4vw,60px); font-weight: 700; line-height: 1; color: var(--black); margin-bottom: 28px; }
+    .atelier-pullquote {
+      font-family: var(--font-accent); font-size: 20px; font-style: italic; font-weight: 300;
+      color: var(--scarlet); line-height: 1.5;
+      padding-left: 20px; border-left: 2px solid var(--scarlet);
+      margin-bottom: 28px;
+    }
+    .atelier-body { font-size: 15px; font-weight: 300; line-height: 1.8; color: var(--charcoal); margin-bottom: 44px; }
+
+    /* ============================================================
+       APPOINTMENT
+    ============================================================ */
+    #appointment { background: var(--black); text-align: center; }
+    .appt-inner { max-width: 640px; margin: 0 auto; }
+    .appt-eyebrow { font-size: 10px; letter-spacing: .4em; text-transform: uppercase; color: var(--blush); margin-bottom: 20px; }
+    .appt-title {
+      font-family: var(--font-display); font-size: clamp(40px,5vw,72px);
+      font-weight: 900; line-height: .92; text-transform: uppercase; color: var(--white);
+      margin-bottom: 24px;
+    }
+    .appt-title em { color: var(--scarlet); font-style: italic; }
+    .appt-desc { font-size: 15px; font-weight: 300; line-height: 1.7; color: rgba(255,255,255,.55); margin-bottom: 56px; }
+    .appt-form { display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .f-input {
+      width: 100%; padding: 16px 18px; background: transparent;
+      border: 1px solid rgba(255,255,255,.18); color: var(--white);
+      font-family: var(--font-body); font-size: 13px; font-weight: 300;
+      outline: none; transition: border-color var(--ease);
+    }
+    .f-input::placeholder { color: rgba(255,255,255,.3); font-size: 10px; letter-spacing: .15em; text-transform: uppercase; }
+    .f-input:focus { border-color: var(--scarlet); }
+    .f-textarea { height: 110px; resize: none; }
+    .f-submit {
+      width: 100%; padding: 18px; background: var(--scarlet); border: 1px solid var(--scarlet);
+      color: var(--white); font-family: var(--font-body); font-size: 10px;
+      font-weight: 400; letter-spacing: .3em; text-transform: uppercase;
+      transition: background var(--ease), border-color var(--ease);
+    }
+    .f-submit:hover { background: var(--scarlet-dark); border-color: var(--scarlet-dark); }
+    .f-fine { font-size: 10px; letter-spacing: .1em; color: rgba(255,255,255,.25); }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      background: var(--black); border-top: 1px solid rgba(255,255,255,.08);
+      padding: 44px 60px;
+    }
+    .footer-inner { max-width: var(--max-width); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+    .footer-logo { font-family: var(--font-display); font-size: 15px; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; color: var(--white); }
+    .footer-logo span { display: block; font-family: var(--font-body); font-size: 9px; font-weight: 300; letter-spacing: .4em; color: rgba(255,255,255,.35); margin-top: 4px; }
+    .footer-tagline { font-family: var(--font-accent); font-style: italic; font-size: 14px; color: rgba(255,255,255,.35); }
+    .footer-links { display: flex; gap: 28px; list-style: none; }
+    .footer-links a { font-size: 9px; letter-spacing: .3em; text-transform: uppercase; color: rgba(255,255,255,.45); transition: color var(--ease); }
+    .footer-links a:hover { color: var(--scarlet); }
+
+    /* ============================================================
+       KEYFRAMES
+    ============================================================ */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 1100px) {
+      :root { --sp: 80px; }
+      #hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .hero-left { padding: 140px 40px 60px; }
+      .icons-grid { grid-template-columns: 1fr 1fr; }
+      .materials-grid { grid-template-columns: 1fr 1fr; }
+      .materials-grid .mat-card:last-child { grid-column: span 2; max-width: 50%; margin: 0 auto; }
+      .masonry { columns: 2; }
+      .atelier-split { grid-template-columns: 1fr; }
+      .atelier-img { height: 60vw; }
+      nav { padding: 20px 32px; }
+      .container { padding: 0 32px; }
+      .scarlet-head, .footer-inner { padding: 0 32px; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .icons-grid { grid-template-columns: 1fr 1fr; }
+      .materials-grid { grid-template-columns: 1fr; }
+      .materials-grid .mat-card:last-child { grid-column: auto; max-width: 100%; }
+      .masonry { columns: 1; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; gap: 28px; text-align: center; }
+      .atelier-text { padding: 60px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cursor"></div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button id="lb-close">✕</button>
+  <img id="lb-img" src="" alt="">
+</div>
+
+<!-- ============================================================
+     NAV
+============================================================ -->
+<nav id="nav">
+  <div class="nav-logo">Liberty<span>Atelier</span></div>
+  <ul class="nav-links">
+    <li><a href="#icons">Collections</a></li>
+    <li><a href="#lookbook">Lookbook</a></li>
+    <li><a href="#materials">Materials</a></li>
+    <li><a href="#atelier">The Atelier</a></li>
+  </ul>
+  <a href="#appointment" class="nav-cta">Request Fitting</a>
+</nav>
+
+<!-- ============================================================
+     HERO
+============================================================ -->
+<section id="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">House of Bold Elegance — AW 2026</p>
+    <h1 class="hero-title">Liberty<br><em>Atelier.</em></h1>
+    <p class="hero-subtitle">The Winter Collection — Statement Silhouettes.</p>
+    <div class="hero-ctas">
+      <a href="#lookbook" class="btn-primary">Explore the Lookbook</a>
+      <a href="#icons" class="btn-ghost">The Collections</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="https://images.unsplash.com/photo-1516762689617-e1cffcef479d?auto=format&fit=crop&w=960&h=1400&q=80" alt="The Winter Collection">
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="hero-ticker">
+  <div class="ticker-inner">
+    <span>Wear Your Conviction</span><span>House Icons</span><span>The Scarlet Edit</span>
+    <span>Tailored to Power</span><span>Statement Silhouettes</span><span>AW 2026</span>
+    <span>Wear Your Conviction</span><span>House Icons</span><span>The Scarlet Edit</span>
+    <span>Tailored to Power</span><span>Statement Silhouettes</span><span>AW 2026</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     PHILOSOPHY
+============================================================ -->
+<section id="philosophy">
+  <div class="container">
+    <div class="philosophy-inner">
+      <p class="section-label reveal">House Philosophy</p>
+      <div class="philosophy-rule"></div>
+      <blockquote class="philosophy-quote reveal d1">
+        "We do not make clothes.<br>We construct conviction."
+      </blockquote>
+      <p class="philosophy-body reveal d2">
+        Liberty Atelier was founded on a singular belief: that true elegance is not adorned — it is engineered. Each silhouette is the result of weeks of draping, pinning, and rethinking. Our artisans treat wool as a sculptor treats marble. We do not chase the season. We define it. The Client does not follow fashion. She renders it irrelevant.
+      </p>
+      <a href="#atelier" class="btn-ghost reveal d3" style="justify-content:center;">Discover the House</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ICONS OF THE HOUSE
+============================================================ -->
+<section id="icons">
+  <div class="container">
+    <div class="icons-header reveal">
+      <p class="section-label">Icons of the House</p>
+      <h2 class="section-title">Tailored to Power.</h2>
+    </div>
+  </div>
+  <div class="icons-grid">
+    <div class="icon-card reveal">
+      <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&h=800&q=80" alt="Sculptural Tailoring">
+      <div class="icon-overlay">
+        <p class="icon-cat">Category I</p>
+        <h3 class="icon-name">Sculptural<br>Tailoring</h3>
+        <span class="icon-link">Blazers &amp; Trousers →</span>
+      </div>
+    </div>
+    <div class="icon-card reveal d1">
+      <img src="https://images.unsplash.com/photo-1523381294911-8d3cead13475?auto=format&fit=crop&w=600&h=800&q=80" alt="Liquid Silhouettes">
+      <div class="icon-overlay">
+        <p class="icon-cat">Category II</p>
+        <h3 class="icon-name">Liquid<br>Silhouettes</h3>
+        <span class="icon-link">Silk Dresses &amp; Gowns →</span>
+      </div>
+    </div>
+    <div class="icon-card reveal d2">
+      <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6cae2?auto=format&fit=crop&w=600&h=800&q=80" alt="Outerwear Armor">
+      <div class="icon-overlay">
+        <p class="icon-cat">Category III</p>
+        <h3 class="icon-name">Outerwear<br>Armor</h3>
+        <span class="icon-link">Coats, Capes &amp; Leather →</span>
+      </div>
+    </div>
+    <div class="icon-card reveal d3">
+      <img src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=600&h=800&q=80" alt="Footwear & Objects">
+      <div class="icon-overlay">
+        <p class="icon-cat">Category IV</p>
+        <h3 class="icon-name">Footwear<br>&amp; Objects</h3>
+        <span class="icon-link">Heels, Boots &amp; Bags →</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     THE SCARLET EDIT
+============================================================ -->
+<section id="scarlet-edit">
+  <div class="scarlet-head">
+    <div>
+      <p class="section-label">The Scarlet Edit</p>
+      <h2 class="section-title">The Season's<br>Boldest Looks.</h2>
+    </div>
+    <div class="carousel-controls">
+      <button class="c-btn" id="prevBtn" onclick="slide(-1)">←</button>
+      <button class="c-btn" id="nextBtn" onclick="slide(1)">→</button>
+    </div>
+  </div>
+  <div class="carousel-wrap">
+    <div class="carousel-track" id="track">
+      <div class="c-item">
+        <img src="https://images.unsplash.com/photo-1539008701409-7e9b74c2b0db?auto=format&fit=crop&w=360&h=480&q=80" alt="The Scarlet Greatcoat">
+        <div class="c-info"><p class="c-num">No. 01</p><h3 class="c-name">The Scarlet Greatcoat</h3><p class="c-desc">Double-face wool, sculptural lapel</p></div>
+      </div>
+      <div class="c-item">
+        <img src="https://images.unsplash.com/photo-1571019613914-72eded822a6e?auto=format&fit=crop&w=360&h=480&q=80" alt="The Power Blazer">
+        <div class="c-info"><p class="c-num">No. 02</p><h3 class="c-name">The Power Blazer</h3><p class="c-desc">Charcoal pinstripe, architectural cut</p></div>
+      </div>
+      <div class="c-item">
+        <img src="https://images.unsplash.com/photo-1495385794356-15371f348939?auto=format&fit=crop&w=360&h=480&q=80" alt="The Liquid Silk Gown">
+        <div class="c-info"><p class="c-num">No. 03</p><h3 class="c-name">The Liquid Silk Gown</h3><p class="c-desc">Duchess satin, bias-cut silhouette</p></div>
+      </div>
+      <div class="c-item">
+        <img src="https://images.unsplash.com/photo-1595950653106-bde9a793fefa?auto=format&fit=crop&w=360&h=480&q=80" alt="The Nappa Cape">
+        <div class="c-info"><p class="c-num">No. 04</p><h3 class="c-name">The Nappa Cape</h3><p class="c-desc">Butter-soft leather, bold drape</p></div>
+      </div>
+      <div class="c-item">
+        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=360&h=480&q=80" alt="The Scarlet Suit">
+        <div class="c-info"><p class="c-num">No. 05</p><h3 class="c-name">The Scarlet Suit</h3><p class="c-desc">Tailored trouser set, matching lapel</p></div>
+      </div>
+      <div class="c-item">
+        <img src="https://images.unsplash.com/photo-1584987103994-d65b9b6e5f67?auto=format&fit=crop&w=360&h=480&q=80" alt="The Editorial Shift">
+        <div class="c-info"><p class="c-num">No. 06</p><h3 class="c-name">The Editorial Shift</h3><p class="c-desc">Cashmere-blend, minimalist column</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     MATERIAL LIBRARY
+============================================================ -->
+<section id="materials">
+  <div class="container">
+    <div class="materials-head reveal">
+      <p class="section-label">Material Library</p>
+      <h2 class="section-title">Crafted from<br>Excellence.</h2>
+    </div>
+    <div class="materials-grid">
+      <div class="mat-card reveal">
+        <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=600&h=340&q=80" alt="Double-Face Cashmere">
+        <div class="mat-info">
+          <p class="mat-label">Textile No. I</p>
+          <h3 class="mat-name">Double-Face<br>Cashmere</h3>
+          <p class="mat-desc">Sourced from the high plateaus of Inner Mongolia, our double-face cashmere is brushed cloud-soft on one side, structured on the other. It drapes with authority and whispers against the skin.</p>
+        </div>
+      </div>
+      <div class="mat-card reveal d1">
+        <img src="https://images.unsplash.com/photo-1559825481-12a05cc00344?auto=format&fit=crop&w=600&h=340&q=80" alt="Duchess Satin">
+        <div class="mat-info">
+          <p class="mat-label">Textile No. II</p>
+          <h3 class="mat-name">Duchess<br>Satin</h3>
+          <p class="mat-desc">Woven in Lyon, France, from 100% mulberry silk. The weight is sculptural — it holds shape while appearing to liquid pool around the form. A House Icon in its own right.</p>
+        </div>
+      </div>
+      <div class="mat-card reveal d2">
+        <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=600&h=340&q=80" alt="Nappa Leather">
+        <div class="mat-info">
+          <p class="mat-label">Textile No. III</p>
+          <h3 class="mat-name">Butter-Soft<br>Nappa Leather</h3>
+          <p class="mat-desc">Italian-tanned nappa, drum-dyed in midnight black and deep bordeaux. So supple it folds like fabric, so structured it commands a room. This is leather as armour.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SEASONAL LOOKBOOK
+============================================================ -->
+<section id="lookbook">
+  <div class="container">
+    <div class="lookbook-head reveal">
+      <p class="section-label">Seasonal Lookbook</p>
+      <h2 class="section-title">AW 2026 — Editorial.</h2>
+    </div>
+    <div class="masonry">
+      <div class="lb-item reveal" onclick="openLb('https://images.unsplash.com/photo-1520006403909-838d6b92c22e?auto=format&fit=crop&w=600&h=900&q=80')">
+        <img src="https://images.unsplash.com/photo-1520006403909-838d6b92c22e?auto=format&fit=crop&w=600&h=900&q=80" alt="Look 01">
+        <div class="lb-overlay"><div class="lb-icon">+</div></div>
+      </div>
+      <div class="lb-item reveal d1" onclick="openLb('https://images.unsplash.com/photo-1537832816519-689ad163239b?auto=format&fit=crop&w=600&h=740&q=80')">
+        <img src="https://images.unsplash.com/photo-1537832816519-689ad163239b?auto=format&fit=crop&w=600&h=740&q=80" alt="Look 02">
+        <div class="lb-overlay"><div class="lb-icon">+</div></div>
+      </div>
+      <div class="lb-item reveal d2" onclick="openLb('https://images.unsplash.com/photo-1519052537078-e6302a4968d4?auto=format&fit=crop&w=600&h=820&q=80')">
+        <img src="https://images.unsplash.com/photo-1519052537078-e6302a4968d4?auto=format&fit=crop&w=600&h=820&q=80" alt="Look 03">
+        <div class="lb-overlay"><div class="lb-icon">+</div></div>
+      </div>
+      <div class="lb-item reveal" onclick="openLb('https://images.unsplash.com/photo-1554412933-514a83d2f3c8?auto=format&fit=crop&w=600&h=680&q=80')">
+        <img src="https://images.unsplash.com/photo-1554412933-514a83d2f3c8?auto=format&fit=crop&w=600&h=680&q=80" alt="Look 04">
+        <div class="lb-overlay"><div class="lb-icon">+</div></div>
+      </div>
+      <div class="lb-item reveal d1" onclick="openLb('https://images.unsplash.com/photo-1600180758890-6b94519a8cf6?auto=format&fit=crop&w=600&h=960&q=80')">
+        <img src="https://images.unsplash.com/photo-1600180758890-6b94519a8cf6?auto=format&fit=crop&w=600&h=960&q=80" alt="Look 05">
+        <div class="lb-overlay"><div class="lb-icon">+</div></div>
+      </div>
+      <div class="lb-item reveal d2" onclick="openLb('https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?auto=format&fit=crop&w=600&h=640&q=80')">
+        <img src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?auto=format&fit=crop&w=600&h=640&q=80" alt="Look 06">
+        <div class="lb-overlay"><div class="lb-icon">+</div></div>
+      </div>
+      <div class="lb-item reveal" onclick="openLb('https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&h=860&q=80')">
+        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&h=860&q=80" alt="Look 07">
+        <div class="lb-overlay"><div class="lb-icon">+</div></div>
+      </div>
+      <div class="lb-item reveal d1" onclick="openLb('https://images.unsplash.com/photo-1562157688-7cc5a4bc1b70?auto=format&fit=crop&w=600&h=680&q=80')">
+        <img src="https://images.unsplash.com/photo-1562157688-7cc5a4bc1b70?auto=format&fit=crop&w=600&h=680&q=80" alt="Look 08">
+        <div class="lb-overlay"><div class="lb-icon">+</div></div>
+      </div>
+      <div class="lb-item reveal d2" onclick="openLb('https://images.unsplash.com/photo-1584917865-3e02d2d6b3a3?auto=format&fit=crop&w=600&h=920&q=80')">
+        <img src="https://images.unsplash.com/photo-1584917865-3e02d2d6b3a3?auto=format&fit=crop&w=600&h=920&q=80" alt="Look 09">
+        <div class="lb-overlay"><div class="lb-icon">+</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     THE ATELIER
+============================================================ -->
+<section id="atelier">
+  <div class="atelier-split">
+    <div class="atelier-img">
+      <img src="https://images.unsplash.com/photo-1603251578711-3290ca1a0187?auto=format&fit=crop&w=960&h=860&q=80" alt="The Atelier — Artisanal Process">
+    </div>
+    <div class="atelier-text reveal">
+      <p class="atelier-eyebrow">The House</p>
+      <h2 class="atelier-title">Where Cloth<br>Becomes<br>Conviction.</h2>
+      <blockquote class="atelier-pullquote">"Every stitch is a decision.<br>Every seam, a statement."</blockquote>
+      <p class="atelier-body">
+        Founded in the historic 8th arrondissement of Paris, Liberty Atelier began as a singular vision: to create garments that do not merely fit, but transform. Our founder, Margaux Delacroix, trained under the last generation of true couture houses before establishing her own. Today, the Atelier employs fourteen master artisans — each a specialist, from sleeve construction to bespoke embroidery. We produce fewer than 200 pieces per season. Each one is numbered. Each one, a House Icon.
+      </p>
+      <a href="#appointment" class="btn-primary">Request a Private Fitting</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     APPOINTMENT
+============================================================ -->
+<section id="appointment">
+  <div class="container">
+    <div class="appt-inner reveal">
+      <p class="appt-eyebrow">Private Clients</p>
+      <h2 class="appt-title">Request a<br><em>Private</em><br>Fitting.</h2>
+      <p class="appt-desc">
+        The Atelier is appointment-only. We work with The Client directly — no intermediaries. Your fitting is conducted in our private Paris salon, at your convenience.
+      </p>
+      <form class="appt-form" id="apptForm">
+        <div class="form-row">
+          <input class="f-input" type="text" placeholder="Your Name" required>
+          <input class="f-input" type="email" placeholder="Your Email" required>
+        </div>
+        <textarea class="f-input f-textarea" placeholder="A Note — Tell us what you have in mind."></textarea>
+        <button class="f-submit" type="submit">Send Request — Wear Your Conviction.</button>
+      </form>
+      <p class="f-fine">Appointments confirmed within 48 hours. Discretion is our standard.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Liberty Atelier<span>Wear Your Conviction. — Est. 2008</span></div>
+    <p class="footer-tagline">"House Icons. The Scarlet Edit. Tailored to Power."</p>
+    <ul class="footer-links">
+      <li><a href="#">Instagram</a></li>
+      <li><a href="#">Vogue</a></li>
+      <li><a href="#">LinkedIn</a></li>
+      <li><a href="#appointment">Private Clients</a></li>
+    </ul>
+  </div>
+</footer>
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script>
+  /* --- Custom Cursor --- */
+  const cur = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cur.style.left = e.clientX + 'px';
+    cur.style.top = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button, .icon-card, .lb-item, .mat-card, .c-item').forEach(el => {
+    el.addEventListener('mouseenter', () => cur.classList.add('hover'));
+    el.addEventListener('mouseleave', () => cur.classList.remove('hover'));
+  });
+
+  /* --- Nav scroll --- */
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 60), { passive: true });
+
+  /* --- Intersection Observer --- */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* --- Carousel --- */
+  let cur_slide = 0;
+  const track = document.getElementById('track');
+  function slide(dir) {
+    const items = track.children.length;
+    const visible = window.innerWidth < 768 ? 1 : window.innerWidth < 1100 ? 2 : 3;
+    const max = items - visible;
+    cur_slide = Math.max(0, Math.min(cur_slide + dir, max));
+    const w = track.children[0].offsetWidth + 24;
+    track.style.transform = `translateX(-${cur_slide * w}px)`;
+  }
+
+  /* --- Lightbox --- */
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lb-img');
+  function openLb(src) { lbImg.src = src; lb.classList.add('on'); document.body.style.overflow = 'hidden'; }
+  function closeLb() { lb.classList.remove('on'); document.body.style.overflow = ''; }
+  document.getElementById('lb-close').addEventListener('click', closeLb);
+  lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+
+  /* --- Form --- */
+  document.getElementById('apptForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const btn = e.target.querySelector('.f-submit');
+    btn.textContent = 'Request Received — We Will Be In Touch.';
+    btn.style.background = '#1A1A1A';
+    btn.style.borderColor = '#1A1A1A';
+    btn.disabled = true;
+  });
+</script>
+</body>
+</html>
