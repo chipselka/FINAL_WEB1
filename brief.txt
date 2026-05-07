@@ -1,0 +1,171 @@
+==============================================================
+SITE: Liberty Atelier — House of Bold Elegance
+==============================================================
+
+ROLE / CONTEXT
+--------------
+Role: Creative Director for an ultra-luxury, avant-garde fashion house.
+Context: "Liberty Atelier" is not a department store. It is a private,
+appointment-only atelier where fashion is treated as sculptural art.
+The brand is synonymous with power, confidence, and unapologetic femininity.
+The aesthetic is a dramatic collision of sharp tailoring and flowing silks.
+Target client: CEOs, celebrities, and anyone who commands attention when
+they enter a room. The color story is iconic: Deep Scarlet Red and Pristine White.
+
+PURPOSE
+-------
+To showcase the seasonal collections and house icons in an immersive,
+editorial format. The site must feel like flipping through a high-fashion
+lookbook. Functionality includes: Collection browsing, Lookbook viewing,
+Material/Atelier story, and Private Appointment requests. No "Add to Cart"
+nonsense — this is about desire and aspiration.
+
+
+==============================================================
+STEP 2 — BRAND VOICE (for `brand` skill)
+==============================================================
+Voice archetype: The Confident Curator — Sharp, discerning, and magnetic.
+Speaks in declarative statements. Unimpressed by trends, only interested in
+timeless construction and attitude. Celebrates the bold.
+
+Tone dimensions:
+- Formal ↔ Casual: 2 (Polished but not stuffy)
+- Serious ↔ Playful: 4 (A knowing, confident smirk)
+- Reserved ↔ Expressive: 5 (Passionate about craftsmanship)
+
+Voice rules:
+- NEVER use "discount," "sale," or "affordable."
+- Use "House," "Atelier," "Collection," "Silhouette," "Artisanal."
+- Describe textures vividly: "liquid silk," "sculptural wool," "butter-soft leather."
+- Address the client as "you" or "The Client."
+
+Tagline: "Wear Your Conviction."
+Key Phrases: "House Icons," "The Scarlet Edit," "Tailored to Power," "Statement Silhouettes."
+
+
+==============================================================
+STEP 3 — DESIGN SYSTEM (for `ui-ux-pro-max` + `design-system`)
+==============================================================
+Style keywords: Opulent Minimalism, Editorial, High Contrast, Sharp,
+Architectural. Think: A white gallery wall with a single, massive red Rothko.
+
+COLOR SYSTEM (Restricted Palette):
+- Base (Background): Pure White (#FFFFFF) or Soft Chalk White (#F8F8F8).
+- Surface (Cards/Modals): Crisp White (#FFFFFF) with subtle 1px borders.
+- Primary (Accents/CTAs): Deep Scarlet Red (#C80000, #A00000).
+- Secondary (Hover/Details): Soft Blush or Rose Quartz (#F5D0D0) — used sparingly.
+- Ink (Text): Absolute Black (#000000) or Deep Charcoal (#1A1A1A).
+
+TYPOGRAPHY:
+- Display (Headlines): "Bodoni Moda" or "Playfair Display" — High contrast, elegant, dramatic.
+- Body (Text): "Inter" or "Lato" — Clean, light weight (300/400), highly legible.
+- Accent: "Cormorant Garamond" italic for pull quotes.
+
+SPACING & RADII:
+- Container max-width: 1440px.
+- Card Radius: 0px (Sharp, architectural). Buttons may have 0px or 2px radius.
+- Spacing: Generous white space. Section padding: 120px.
+
+VISUAL ACCENTS:
+- Sharp 1px black or red borders on interactive elements.
+- Hover effects: Text links transition to Scarlet Red. Cards have a subtle scale (1.01).
+- Custom cursor: A sharp, thin circle.
+
+
+==============================================================
+STEP 4 — REFERENCE SCRAPE (for Firecrawl) [OPTIONAL]
+==============================================================
+Reference URL: https://www.toteme.com (Scrape the editorial layout and
+sharp typography. Borrow the "less is more" structure but apply our bolder color scheme.)
+
+
+==============================================================
+STEP 5 — SECTIONS & LAYOUT (for Stitch)
+==============================================================
+Section order and goal:
+
+1. Hero — Split screen.
+   Left: Massive, sharp serif headline: "LIBERTY ATELIER." Subhead: "The Winter Collection."
+   Right: Full-bleed editorial image of a model in a flowing red coat against a stark white background.
+   CTA: "Explore the Lookbook."
+
+2. House Philosophy — Centered, narrow column of text (max-width 600px).
+   Statement about the atelier's commitment to artisanal construction over fast fashion.
+
+3. Icons of the House — Grid of 4 categories (image + label):
+   - Sculptural Tailoring (Blazers, Trousers)
+   - Liquid Silhouettes (Silk Dresses, Satin Gowns)
+   - Outerwear Armor (Coats, Capes, Leather)
+   - Footwear & Objects (Heels, Boots, Bags)
+
+4. The Scarlet Edit — Full-width horizontal scroll or carousel.
+   Highlighting 5-6 specific pieces that define the season's boldest looks.
+
+5. Material Library — 3 cards focusing on texture:
+   - Double-Face Cashmere
+   - Duchess Satin
+   - Butter-Soft Nappa Leather
+   Each card has a macro shot of the fabric.
+
+6. Seasonal Lookbook — Pinterest-style masonry grid. High-fashion editorial shots.
+   Minimal text, maximum impact. Images open in a lightbox modal.
+
+7. The Atelier (About) — Split screen.
+   Left: Image of hands meticulously sewing or draping fabric.
+   Right: Story about the founder, the atelier location, and the bespoke process.
+
+8. Appointment — Centered, bold CTA section.
+   "Request a Private Fitting." Brief form (Name, Email, Note).
+
+9. Footer — Minimal. Left: Logo. Right: Social links (Instagram, Vogue, LinkedIn).
+
+
+==============================================================
+STEP 6 — IMAGERY (for Nano Banana 2 / Placeholders)
+==============================================================
+Global art direction: High-contrast fashion editorial. Sharp shadows, clean
+studio lighting (Profoto style). Models with strong, confident poses.
+Backgrounds: Pure white seamless or stark architectural concrete.
+
+Placeholder Strategy (Use exact URLs to maintain the bold aesthetic):
+- Hero Model: `https://placehold.co/800x1200/FFFFFF/000000?text=Scarlet+Coat`
+- Category Tile: `https://placehold.co/600x800/C80000/FFFFFF?text=Tailoring`
+- Lookbook Image: `https://placehold.co/600x800/000000/FFFFFF?text=Editorial`
+- Material Shot: `https://placehold.co/600x400/A00000/FFFFFF?text=Cashmere`
+
+CRITICAL: Use placeholders only initially. Replace with generated images matching the prompts below:
+- "High fashion model in a dramatic red wool coat, sharp white background, editorial lighting."
+- "Macro close-up of luxurious red duchess satin fabric, rich texture, studio lighting."
+
+
+==============================================================
+STEP 7 — BRAND ASSETS (for `design` skill)
+==============================================================
+LOGO brief:
+- Concept: A minimalist, architectural wordmark. "LIBERTY" stacked above "ATELIER."
+  Or a sharp, geometric icon: a stylized diamond or a single, precise red slash.
+- Wordmark: "LIBERTY ATELIER" in Bodoni Moda, heavily letter-spaced.
+- Favicon: A solid red square or a black diamond.
+
+ICON SET (SVG, ultra-thin stroke 1px, sharp corners):
+- Dress Form (Tailoring)
+- Flowing Lines (Silhouettes)
+- Coat (Outerwear)
+- Stiletto Heel (Footwear)
+- Needle and Thread (Atelier)
+
+
+==============================================================
+STEP 8 — INTERACTIVE COMPONENTS (for `ui-styling` / shadcn)
+==============================================================
+Required shadcn/ui primitives:
+- Carousel (The Scarlet Edit, Lookbook preview)
+- Dialog (Lookbook lightbox, Material zoom)
+- Tabs (Switching between "View All" and "The Scarlet Edit")
+- Accordion (Size & Fit details, Care Instructions)
+- Hover Card (Quick material info on hover)
+
+Animation on Assembly:
+- Hero: Quick, sharp fade-in. No slow zooms. Everything feels immediate and crisp.
+- Grid Items: Staggered reveal with a sharp `clip-path` or simple opacity/translateY.
+- Hover: Decisive. Text links turn red. Cards scale 1.01 with a sharp shadow.
